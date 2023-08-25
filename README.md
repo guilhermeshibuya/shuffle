@@ -1,5 +1,5 @@
 <p align="center">
-  <img loading="lazy" src="./shuffle.svg"/>
+  <img height=50 loading="lazy" src="./shuffle.svg"/>
 </p>
 
 # 🎶 shuffle - App de Streaming de Música
