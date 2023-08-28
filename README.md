@@ -6,15 +6,15 @@
 
 # 🔗 Índice
 
-- [Título](#🎶-shuffle---app-de-streaming-de-música)
+- [Título](#-shuffle---app-de-streaming-de-música)
 
-- [Descrição do Projeto](#📋-descrição-do-projeto)
+- [Descrição do Projeto](#-descrição-do-projeto)
 
-- [Status do Projeto](#🔨-status-do-projeto)
+- [Status do Projeto](#-status-do-projeto)
 
-- [Funcionalidades](#⚙-funcionalidades)
+- [Funcionalidades](#-funcionalidades)
 
-- [Tecnologias Utilizadas](#💻-tecnologias-utilizadas)
+- [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 
 # 📋 Descrição do Projeto
 
