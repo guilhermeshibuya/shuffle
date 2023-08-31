@@ -1,12 +1,12 @@
 import { ImageBackground, Image, Text, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Button from "../../components/Button";
-import { useFonts, NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
+import { useFonts, NotoSans_600SemiBold } from "@expo-google-fonts/noto-sans";
 import styles from "./styles";
 
 export default function InitialScreen() {
   const [fontLoaded] = useFonts({
-    NotoSans_400Regular,
+    NotoSans_600SemiBold,
   });
 
   if (!fontLoaded) return null;
