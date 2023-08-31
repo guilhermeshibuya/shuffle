@@ -1,8 +1,8 @@
 import { Pressable, Text } from "react-native";
-import styles from "./Styles";
+import styles from "./styles";
 import { colors } from "../../styles";
 
-export default function Button() {
+export default function Button({ title }) {
   return (
     <Pressable
       style={({ pressed }) => [

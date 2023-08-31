@@ -1,5 +1,5 @@
-import StartScreen from "./src/screens/Start";
+import InitialScreen from "./src/screens/Initial";
 
 export default function App() {
-  return <StartScreen />;
+  return <InitialScreen />;
 }
