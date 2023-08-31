@@ -14,6 +14,22 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontSize: 16,
     fontWeight: "600",
+    fontFamily: "NotoSans_600SemiBold",
+  },
+  primary: {
+    backgroundColor: colors.p4,
+  },
+  secondary: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: colors.c8,
+    backgroundColor: "transparent",
+  },
+  primaryPressed: {
+    backgroundColor: "#432bbad9",
+  },
+  secondaryPressed: {
+    backgroundColor: "#59595980",
   },
 });
 
