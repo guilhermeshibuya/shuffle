@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     maxWidth: "75%",
     textAlign: "left",
     fontSize: 32,
-    fontWeight: "600",
     fontFamily: "NotoSans_600SemiBold",
   },
 });
