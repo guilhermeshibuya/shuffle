@@ -9,6 +9,8 @@ import {
 } from "@expo-google-fonts/noto-sans";
 import * as SplashScreen from "expo-splash-screen";
 import { StyleSheet, Text, View } from "react-native";
+import SignUpScreen from "./src/screens/SignUp";
+import MusicCard from "./src/components/MusicCard";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,8 +29,10 @@ export default function App() {
   }
 
   return (
-    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-      <InitialScreen />
-    </View>
+    <MusicCard
+      albumCoverImgUrl="https://i.scdn.co/image/ab67616d0000b273585f3d70dce678a5978a0941"
+      musicName="Undercover Martyn"
+      artist="Two Door Cinema Club"
+    />
   );
 }

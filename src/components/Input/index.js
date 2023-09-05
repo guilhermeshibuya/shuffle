@@ -2,7 +2,7 @@ import { TextInput } from "react-native";
 import { useState } from "react";
 import styles from "./styles";
 
-export default function Input({ isPassword }) {
+export default function Input({ isPassword, style }) {
   const [text, setText] = useState();
   const [isFocused, setIsFocused] = useState(false);
 
@@ -16,7 +16,7 @@ export default function Input({ isPassword }) {
       onChangeText={(text) => setText(text)}
       value={text}
       secureTextEntry={isPassword}
-      style={[styles.input, isFocused ? styles.inputFocused : null]}
+      style={[styles.input, isFocused ? styles.inputFocused : null, style]}
     />
   );
 }
