@@ -11,6 +11,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StyleSheet, Text, View } from "react-native";
 import SignUpScreen from "./src/screens/SignUp";
 import MusicCard from "./src/components/MusicCard";
+import Navbar from "./src/components/Navbar";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -28,11 +29,5 @@ export default function App() {
     return null;
   }
 
-  return (
-    <MusicCard
-      albumCoverImgUrl="https://i.scdn.co/image/ab67616d0000b273585f3d70dce678a5978a0941"
-      musicName="Undercover Martyn"
-      artist="Two Door Cinema Club"
-    />
-  );
+  return <Navbar />;
 }

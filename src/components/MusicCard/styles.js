@@ -8,6 +8,16 @@ const styles = StyleSheet.create({
     gap: 8,
     width: 200,
   },
+  imageContainer: {
+    width: 200,
+    height: 200,
+    borderRadius: 16,
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 15,
+    elevation: 20,
+  },
   image: {
     width: 200,
     height: 200,
