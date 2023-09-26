@@ -25,11 +25,17 @@ const styles = StyleSheet.create({
     borderColor: colors.c8,
     backgroundColor: "transparent",
   },
+  alert: {
+    backgroundColor: "#C82333",
+  },
   primaryPressed: {
     backgroundColor: "#432bbad9",
   },
   secondaryPressed: {
     backgroundColor: "#59595980",
+  },
+  alertPressed: {
+    backgroundColor: "#EC4B5A",
   },
 });
 

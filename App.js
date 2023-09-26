@@ -12,6 +12,7 @@ import { StyleSheet, Text, View } from "react-native";
 import SignUpScreen from "./src/screens/SignUp";
 import MusicCard from "./src/components/MusicCard";
 import Navbar from "./src/components/Navbar";
+import ProfileScreen from "./src/screens/Profile";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -29,5 +30,5 @@ export default function App() {
     return null;
   }
 
-  return <Navbar />;
+  return <ProfileScreen />;
 }

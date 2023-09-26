@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 60,
     paddingVertical: 12,
     paddingHorizontal: 36,
     backgroundColor: colors.c10,

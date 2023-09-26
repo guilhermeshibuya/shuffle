@@ -3,7 +3,7 @@ import styles from "./styles";
 import { useState } from "react";
 import { useFonts, NotoSans_600SemiBold } from "@expo-google-fonts/noto-sans";
 
-export default function Button({ primary, title }) {
+export default function Button({ primary, alert, title }) {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => setIsPressed(true);
@@ -15,11 +15,17 @@ export default function Button({ primary, title }) {
 
   if (!fontLoaded) return null;
 
-  const btnStyles = [
-    styles.btn,
-    primary ? styles.primary : styles.secondary,
-    isPressed && (primary ? styles.primaryPressed : styles.secondaryPressed),
-  ];
+  let btnStyles;
+
+  if (!alert) {
+    btnStyles = [
+      styles.btn,
+      primary ? styles.primary : styles.secondary,
+      isPressed && (primary ? styles.primaryPressed : styles.secondaryPressed),
+    ];
+  } else {
+    btnStyles = [styles.btn, styles.alert, isPressed && styles.alertPressed];
+  }
 
   return (
     <Pressable
