@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
   },
   optionsText: {
     fontFamily: "NotoSans_400Regular",
-    fontSize: 24,
-    color: colors.w,
+    fontSize: 20,
+    color: colors.c2,
   },
 });
 
