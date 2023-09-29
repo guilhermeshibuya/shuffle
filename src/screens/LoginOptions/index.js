@@ -12,13 +12,17 @@ export default function LoginOptionsScreen() {
 
   if (!fontLoaded) return null;
 
+  const authenticate = async () => {
+
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.c12 }}>
       <View style={styles.container}>
         <Image source={require("../../../assets/images/shuffle.png")} />
         <Text style={styles.text}>conecte-se e deixe a música te levar</Text>
         <Button primary title="Inscreva-se" />
-        <Button title="Continuar com google" />
+        <Button onPress={authenticate} title="Continuar com Spotify" />
         <ButtonLink title="Entrar" />
       </View>
     </View>

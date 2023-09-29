@@ -20,6 +20,8 @@ import { colors } from "./src/styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ProfileStackScreen from "./src/stacks/ProfileStack";
 import HeaderLogo from "./src/components/HeaderLogo";
+import Player from "./src/components/Player";
+
 export default function App() {
   const [fontsLoaded] = useFonts({
     NotoSans_400Regular,
@@ -35,8 +37,7 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-
-  const Tab = createBottomTabNavigator();
+  return <LoginOptionsScreen />;
 
   return (
     <NavigationContainer>
