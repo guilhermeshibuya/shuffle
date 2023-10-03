@@ -4,6 +4,7 @@ import styles from "./styles";
 import Title from "../../components/Title";
 import Subtitle from "../../components/Subtitle";
 import ArtistCard from "../../components/ArtistCard";
+import { LinearGradient } from "expo-linear-gradient";
 
 const data = [
   {
@@ -104,9 +105,13 @@ export default function HomeScreen() {
   );
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <View>
+    <LinearGradient
+      colors={["#222222", "#111111"]}
+      locations={[0.22, 1]}
+      style={styles.container}
+    >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{ marginTop: 24 }}>
           <Subtitle text="descubra novos ritmos" />
           <Title style={{ marginBottom: 16 }} text="músicas" />
         </View>
@@ -156,6 +161,6 @@ export default function HomeScreen() {
           />
         </ScrollView>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }

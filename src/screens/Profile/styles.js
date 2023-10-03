@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     paddingTop: StatusBar.currentHeight + 24,
     paddingBottom: 24,
     paddingHorizontal: 24,
-    backgroundColor: colors.c11,
     gap: 24,
   },
   profilePicContainer: {

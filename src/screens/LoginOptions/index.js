@@ -15,11 +15,11 @@ export default function LoginOptionsScreen({ navigation }) {
   });
 
   const redirectUri = Linking.createURL("spotify-auth-callback");
-
   const clientId = "635cb84ecc27482ea1d559e98461c89f";
   const scopes = [
     "user-read-email",
     "user-library-read",
+    "user-read-private",
     "user-read-recently-played",
     "user-top-read",
     "playlist-read-private",
@@ -41,37 +41,15 @@ export default function LoginOptionsScreen({ navigation }) {
     discovery
   );
 
-  useEffect(() => {
-    const checkTokenValidity = async () => {
-      const accessToken = await AsyncStorage.getItem("token");
-      const expirationDate = await AsyncStorage.getItem("expirationDate");
-
-      if (accessToken && expirationDate) {
-        const currentDate = Date.now();
-
-        if (currentDate < parseInt(expirationDate)) {
-          navigation.replace("HomeTab");
-        } else {
-          AsyncStorage.removeItem("token");
-          AsyncStorage.removeItem("expirationDate");
-        }
-      }
-    };
-
-    checkTokenValidity();
-  }, []);
-
   const authenticate = async () => {
     await promptAsync();
 
     if (response?.type === "success") {
       const { authentication } = response;
-
-      console.log(authentication);
       let expirationDate = Date.now();
+
       expirationDate = expirationDate + authentication.expiresIn * 1000;
-      console.log(expirationDate);
-      console.log(Date.now());
+
       AsyncStorage.setItem("token", authentication.accessToken);
       AsyncStorage.setItem("expirationDate", expirationDate.toString());
       navigation.replace("HomeTab");
