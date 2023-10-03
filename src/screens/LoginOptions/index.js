@@ -50,7 +50,7 @@ export default function LoginOptionsScreen({ navigation }) {
         const currentDate = Date.now();
 
         if (currentDate < parseInt(expirationDate)) {
-          navigation.replace("Início");
+          navigation.replace("HomeTab");
         } else {
           AsyncStorage.removeItem("token");
           AsyncStorage.removeItem("expirationDate");
@@ -62,22 +62,19 @@ export default function LoginOptionsScreen({ navigation }) {
   }, []);
 
   const authenticate = async () => {
-    // console.log(request);
-    // console.log(response);
-
     await promptAsync();
 
     if (response?.type === "success") {
       const { authentication } = response;
 
       console.log(authentication);
-      const expirationDate = new Date();
-      expirationDate.setHours(
-        expirationDate.getHours() + authentication.expiresIn / 3600
-      );
+      let expirationDate = Date.now();
+      expirationDate = expirationDate + authentication.expiresIn * 1000;
+      console.log(expirationDate);
+      console.log(Date.now());
       AsyncStorage.setItem("token", authentication.accessToken);
       AsyncStorage.setItem("expirationDate", expirationDate.toString());
-      navigation.navigate("Início");
+      navigation.replace("HomeTab");
     }
   };
 
