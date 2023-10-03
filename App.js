@@ -21,6 +21,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import ProfileStackScreen from "./src/stacks/ProfileStack";
 import HeaderLogo from "./src/components/HeaderLogo";
 import Player from "./src/components/Player";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,7 +38,18 @@ export default function App() {
   if (!fontsLoaded) {
     return null;
   }
-  return <LoginOptionsScreen />;
+
+  // const Tab = createBottomTabNavigator();
+  const Stack = createNativeStackNavigator();
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginOptionsScreen} />
+        <Stack.Screen name="Início" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 
   return (
     <NavigationContainer>
