@@ -10,6 +10,8 @@ import SpotifyWebApi from "spotify-web-api-node";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function ProfileScreen({ navigation }) {
+  const [userProfile, setUserProfile] = useState();
+
   const getProfile = async () => {
     const accessToken = await AsyncStorage.getItem("token");
     const spotifyApi = new SpotifyWebApi({
@@ -21,7 +23,6 @@ export default function ProfileScreen({ navigation }) {
       .getMe()
       .then((data) => {
         setUserProfile(data.body);
-        console.log(userProfile);
       })
       .catch((err) => console.log(err));
   };

@@ -124,9 +124,7 @@ export default function HomeScreen() {
             data={recommendations}
             renderItem={renderMusic}
             keyExtractor={(item) => item.id}
-            numColumns={
-              recommendations ? Math.ceil(recommendations.length / 2) : 2
-            }
+            numColumns={6}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={true}
             contentContainerStyle={{ rowGap: 24 }}
@@ -150,7 +148,7 @@ export default function HomeScreen() {
             data={topArtists}
             renderItem={renderArtist}
             keyExtractor={(item) => item.id}
-            numColumns={topArtists ? topArtists.length : 2}
+            numColumns={8}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={true}
             contentContainerStyle={{ rowGap: 24 }}
