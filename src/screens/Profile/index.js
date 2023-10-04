@@ -9,44 +9,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import SpotifyWebApi from "spotify-web-api-node";
 import { LinearGradient } from "expo-linear-gradient";
 
-const accessToken = AsyncStorage.getItem("token");
-
-const spotifyApi = new SpotifyWebApi({
-  accessToken: accessToken,
-  clientId: "635cb84ecc27482ea1d559e98461c89f",
-});
-
 export default function ProfileScreen({ navigation }) {
-  const [userProfile, setUserProfile] = useState();
-
   const getProfile = async () => {
-    const accessToken = AsyncStorage.getItem("token");
-    try {
-      spotifyApi
-        .searchTracks("artist:BTS")
-        .then((data) => console.log(data.body))
-        .catch((err) => console.log(err));
-      // const response = await fetch("https://api.spotify.com/v1/me", {
-      //   headers: {
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // });
-      // const data = await response.json();
-      // setUserProfile(data);
-      // console.log(data);
-      // return data;
-    } catch (err) {
-      console.log(err);
-    }
-    // spotifyApi
-    //   .getMe()
-    //   .then((data) => console.log(data.body))
-    //   .catch((err) => console.log("DEU RUIM", err));
+    const accessToken = await AsyncStorage.getItem("token");
+    const spotifyApi = new SpotifyWebApi({
+      accessToken: accessToken,
+      clientId: "635cb84ecc27482ea1d559e98461c89f",
+    });
+
+    spotifyApi
+      .getMe()
+      .then((data) => {
+        setUserProfile(data.body);
+        console.log(userProfile);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getProfile();
   }, []);
+
+  if (!userProfile) return <View></View>;
 
   return (
     <LinearGradient
@@ -57,9 +41,9 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.userInfoContainer}>
         <Image
           style={styles.profilePicContainer}
-          source={require("../../../assets/images/bg-intro.jpg")}
+          source={{ uri: userProfile.images[0].url }}
         />
-        <Text style={styles.userName}>Guilherme Shibuya</Text>
+        <Text style={styles.userName}>{userProfile.display_name}</Text>
       </View>
       <View style={styles.separator}></View>
       <View style={styles.optionsContainer}>

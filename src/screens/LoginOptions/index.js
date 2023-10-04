@@ -8,11 +8,24 @@ import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import * as Linking from "expo-linking";
+import SpotifyWebApi from "spotify-web-api-node";
 
 export default function LoginOptionsScreen({ navigation }) {
   const [fontLoaded] = useFonts({
     NotoSans_400Regular,
   });
+
+  function generateRandomState(length) {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let state = "";
+
+    for (let i = 0; i < length; i++) {
+      const index = Math.floor(Math.random() * characters.length);
+      state += characters[i];
+    }
+    return state;
+  }
 
   const redirectUri = Linking.createURL("spotify-auth-callback");
   const clientId = "635cb84ecc27482ea1d559e98461c89f";
@@ -31,12 +44,15 @@ export default function LoginOptionsScreen({ navigation }) {
     tokenEndpoint: "https://accounts.spotify.com/api/token",
   };
 
+  const responseType = "token";
+  const state = generateRandomState(16);
   const [request, response, promptAsync] = AuthSession.useAuthRequest(
     {
-      responseType: "token",
-      clientId,
-      scopes,
-      redirectUri,
+      responseType: responseType,
+      clientId: clientId,
+      scopes: scopes,
+      redirectUri: redirectUri,
+      state: state,
     },
     discovery
   );
@@ -52,6 +68,7 @@ export default function LoginOptionsScreen({ navigation }) {
 
       AsyncStorage.setItem("token", authentication.accessToken);
       AsyncStorage.setItem("expirationDate", expirationDate.toString());
+
       navigation.replace("HomeTab");
     }
   };

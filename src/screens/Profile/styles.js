@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   },
   profilePicContainer: {
     borderRadius: 50,
-    width: 70,
-    height: 70,
+    width: 64,
+    height: 64,
   },
   userName: {
     color: colors.c1,

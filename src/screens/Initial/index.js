@@ -7,20 +7,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function InitialScreen({ navigation }) {
   useEffect(() => {
-    // const checkTokenValidity = async () => {
-    //   const accessToken = await AsyncStorage.getItem("token");
-    //   const expirationDate = await AsyncStorage.getItem("expirationDate");
-    //   if (accessToken && expirationDate) {
-    //     const currentDate = Date.now();
-    //     if (currentDate < expirationDate) {
-    //       navigation.replace("HomeTab");
-    //     } else {
-    //       AsyncStorage.removeItem("token");
-    //       AsyncStorage.removeItem("expirationDate");
-    //     }
-    //   }
-    // };
-    // checkTokenValidity();
+    const checkTokenValidity = async () => {
+      const accessToken = await AsyncStorage.getItem("token");
+      const expirationDate = await AsyncStorage.getItem("expirationDate");
+      if (accessToken && expirationDate) {
+        const currentDate = Date.now();
+        if (currentDate < expirationDate) {
+          navigation.replace("HomeTab");
+        } else {
+          AsyncStorage.removeItem("token");
+          AsyncStorage.removeItem("expirationDate");
+        }
+      }
+    };
+    checkTokenValidity();
   }, []);
 
   return (
