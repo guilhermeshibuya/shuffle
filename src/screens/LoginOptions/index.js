@@ -8,7 +8,6 @@ import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import * as Linking from "expo-linking";
-import SpotifyWebApi from "spotify-web-api-node";
 
 export default function LoginOptionsScreen({ navigation }) {
   const [fontLoaded] = useFonts({
@@ -66,10 +65,14 @@ export default function LoginOptionsScreen({ navigation }) {
 
       expirationDate = expirationDate + authentication.expiresIn * 1000;
 
-      AsyncStorage.setItem("token", authentication.accessToken);
-      AsyncStorage.setItem("expirationDate", expirationDate.toString());
+      try {
+        await AsyncStorage.setItem("token", authentication.accessToken);
+        await AsyncStorage.setItem("expirationDate", expirationDate.toString());
 
-      navigation.replace("HomeTab");
+        navigation.replace("HomeTab");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

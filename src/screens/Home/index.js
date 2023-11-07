@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function HomeScreen() {
   const [recommendations, setRecommendations] = useState(null);
   const [topArtists, setTopArtists] = useState(null);
+  const [recentlyPlayed, setRecentlyPlayed] = useState(null);
 
   const getTracks = async () => {
     const accessToken = await AsyncStorage.getItem("token");
@@ -20,11 +21,10 @@ export default function HomeScreen() {
       clientId: "635cb84ecc27482ea1d559e98461c89f",
     });
 
-    let topArtists = [];
     spotifyApi
       .getMyTopArtists({ limit: 3 })
       .then((data) => {
-        data.body.items.forEach((artist) => topArtists.push(artist.id));
+        const topArtists = data.body.items.map((artist) => artist.id);
 
         spotifyApi
           .getRecommendations({
@@ -35,25 +35,44 @@ export default function HomeScreen() {
           })
           .then((data) => {
             const tracks = data.body.tracks;
-            let recommendations = [];
-
-            tracks.forEach((track) => {
-              const id = track.id;
-              const name = track.name;
-              const artists = track.artists.map((artist) => artist.name);
-              const albumCoverImgUrl = track.album.images[0].url;
-              recommendations.push({
-                id: id,
-                name: name,
-                artists: artists,
-                albumCoverImgUrl: albumCoverImgUrl,
-              });
-            });
+            const recommendations = tracks.map(
+              ({ id, name, artists, album }) => ({
+                id,
+                name,
+                artists: artists.map((artist) => artist.name),
+                albumCoverImgUrl: album.images[0].url,
+              })
+            );
             setRecommendations(recommendations);
           });
       })
       .catch((err) => {
         console.log(err);
+      });
+  };
+
+  const getRecentlyPlayedSongs = async () => {
+    const accessToken = await AsyncStorage.getItem("token");
+    const spotifyApi = new SpotifyWebApi({
+      accessToken: accessToken,
+      clientId: "635cb84ecc27482ea1d559e98461c89f",
+    });
+
+    spotifyApi
+      .getMyRecentlyPlayedTracks({
+        limit: 12,
+      })
+      .then((data) => {
+        const recentlyTracks = data.body.items.map(({ track }) => {
+          const { id, name, artists, album } = track;
+          return {
+            id,
+            name,
+            artists: artists.map((artist) => artist.name),
+            albumCoverImgUrl: album.images[0].url,
+          };
+        });
+        setRecentlyPlayed(recentlyTracks);
       });
   };
 
@@ -64,17 +83,15 @@ export default function HomeScreen() {
       clientId: "635cb84ecc27482ea1d559e98461c89f",
     });
 
-    let topArtists = [];
     spotifyApi
       .getMyTopArtists({ limit: 8 })
       .then((data) => {
-        data.body.items.forEach((artist) => {
-          topArtists.push({
-            id: artist.id,
-            name: artist.name,
-            imageUrl: artist.images[0].url,
-          });
-        });
+        const artists = data.body.items;
+        const topArtists = artists.map(({ id, name, images }) => ({
+          id,
+          name,
+          imageUrl: images[0].url,
+        }));
         setTopArtists(topArtists);
       })
       .catch((err) => {
@@ -85,6 +102,7 @@ export default function HomeScreen() {
   useEffect(() => {
     getTracks();
     getArtists();
+    getRecentlyPlayedSongs();
   }, []);
 
   const renderMusic = ({ item }) => (
@@ -122,6 +140,30 @@ export default function HomeScreen() {
         >
           <FlatList
             data={recommendations}
+            renderItem={renderMusic}
+            keyExtractor={(item) => item.id}
+            numColumns={6}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={true}
+            contentContainerStyle={{ rowGap: 24 }}
+            columnWrapperStyle={{ columnGap: 24 }}
+          />
+        </ScrollView>
+
+        <View style={{ marginTop: 24 }}>
+          <Subtitle text="reviva a melodia" />
+          <Title style={{ marginBottom: 16 }} text="ouça novamente" />
+        </View>
+
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          directionalLockEnabled={true}
+          alwaysBounceVertical={false}
+          style={{ marginBottom: 40 }}
+        >
+          <FlatList
+            data={recentlyPlayed}
             renderItem={renderMusic}
             keyExtractor={(item) => item.id}
             numColumns={6}

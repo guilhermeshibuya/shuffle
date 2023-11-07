@@ -42,9 +42,9 @@ export default function ProfileScreen({ navigation }) {
       <View style={styles.userInfoContainer}>
         <Image
           style={styles.profilePicContainer}
-          source={{ uri: userProfile.images[0].url }}
+          source={{ uri: userProfile?.images[0].url }}
         />
-        <Text style={styles.userName}>{userProfile.display_name}</Text>
+        <Text style={styles.userName}>{userProfile?.display_name}</Text>
       </View>
       <View style={styles.separator}></View>
       <View style={styles.optionsContainer}>
