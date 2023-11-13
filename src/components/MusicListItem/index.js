@@ -1,10 +1,11 @@
 import { Image, Pressable, Text, View } from "react-native";
 import styles from "./styles";
 
-export default function MusicCard({
+export default function MusicListItem({
   title,
   artist,
   albumCoverImgUrl,
+  duration,
   onPress,
 }) {
   const truncateText = (text, maxChars) => {

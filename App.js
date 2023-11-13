@@ -10,6 +10,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomeTab from "./src/Tabs/Home";
+import { PlayerContext } from "./PlayerContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,15 +31,17 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Intro"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Intro" component={InitialScreen} />
-        <Stack.Screen name="Login" component={LoginOptionsScreen} />
-        <Stack.Screen name="HomeTab" component={HomeTab} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PlayerContext>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Intro"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Intro" component={InitialScreen} />
+          <Stack.Screen name="Login" component={LoginOptionsScreen} />
+          <Stack.Screen name="HomeTab" component={HomeTab} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </PlayerContext>
   );
 }

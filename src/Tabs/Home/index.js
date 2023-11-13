@@ -6,6 +6,7 @@ import ProfileStackScreen from "../../stacks/ProfileStack";
 import { colors } from "../../styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import HeaderLogo from "../../components/HeaderLogo";
+import HomeStack from "../../stacks/HomeStack";
 
 const Tab = createBottomTabNavigator();
 
@@ -43,15 +44,14 @@ export default function HomeTab() {
         headerShadowVisible: false,
         headerTitleContainerStyle: { paddingLeft: 12 },
         headerStyle: {
-          backgroundColor: colors.c11,
+          backgroundColor: "#202020",
         },
       })}
     >
       <Tab.Screen
         name="Início"
-        component={HomeScreen}
+        component={HomeStack}
         options={{
-          headerShown: true,
           headerTitle: (props) => <HeaderLogo {...props} />,
         }}
       />

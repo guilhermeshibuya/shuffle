@@ -1,9 +1,9 @@
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import styles from "./styles";
 
-export default function ArtistCard({ imageUrl, artistName }) {
+export default function ArtistCard({ imageUrl, artistName, onPress }) {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -13,6 +13,6 @@ export default function ArtistCard({ imageUrl, artistName }) {
         />
       </View>
       <Text style={styles.text}>{artistName}</Text>
-    </View>
+    </Pressable>
   );
 }
