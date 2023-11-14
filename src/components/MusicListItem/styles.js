@@ -3,8 +3,9 @@ import { colors } from "../../styles/index";
 
 const styles = StyleSheet.create({
   cardContainer: {
-    display: "flex",
     flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     gap: 12,
   },
   imageContainer: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 15,
-    elevation: 20,
+    elevation: 10,
   },
   image: {
     width: 60,

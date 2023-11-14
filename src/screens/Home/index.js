@@ -47,12 +47,13 @@ export default function HomeScreen({ navigation }) {
 
       const tracks = recommendationsData.body.tracks;
       const recommendations = tracks.map(
-        ({ id, name, artists, album, duration_ms }) => ({
+        ({ id, name, artists, album, duration_ms, preview_url }) => ({
           id,
           name,
           artists: artists.map((artist) => artist.name),
           albumCoverImgUrl: album.images[0].url,
           duration: duration_ms / 1000,
+          preview_url,
         })
       );
 
@@ -75,13 +76,14 @@ export default function HomeScreen({ navigation }) {
       })
       .then((data) => {
         const recentlyTracks = data.body.items.map(({ track }) => {
-          const { id, name, artists, album, duration_ms } = track;
+          const { id, name, artists, album, duration_ms, preview_url } = track;
           return {
             id,
             name,
             artists: artists.map((artist) => artist.name),
             albumCoverImgUrl: album.images[0].url,
             duration: duration_ms / 1000,
+            preview_url,
           };
         });
         setRecentlyPlayed(recentlyTracks);
@@ -165,7 +167,7 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    getTracks();
+    // getTracks();
     getArtists();
     getRecentlyPlayedSongs();
     getNewReleases();
@@ -185,10 +187,10 @@ export default function HomeScreen({ navigation }) {
   );
 
   if (
-    !recommendations &&
-    !topArtists &&
-    !recentlyPlayed &&
-    !newReleases &&
+    !recommendations ||
+    !topArtists ||
+    !recentlyPlayed ||
+    !newReleases ||
     !featuredPlaylists
   )
     return <View></View>;
@@ -230,19 +232,7 @@ export default function HomeScreen({ navigation }) {
           >
             <MaterialIcons name="favorite" color={colors.c1} size={40} />
           </LinearGradient>
-          <View
-            style={{
-              padding: 12,
-              flexDirection: "row",
-              justifyContent: "flex-start",
-              alignItems: "center",
-              backgroundColor: colors.c10,
-              borderTopRightRadius: 16,
-              borderBottomRightRadius: 16,
-              width: "100%",
-              overflow: "hidden",
-            }}
-          >
+          <View style={styles.likedSongs}>
             <Text
               style={{
                 fontSize: 20,
@@ -270,7 +260,7 @@ export default function HomeScreen({ navigation }) {
             data={recommendations}
             renderItem={renderMusic}
             keyExtractor={(item) => item.id}
-            numColumns={6}
+            numColumns={recommendations?.length / 2}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={true}
             contentContainerStyle={{ rowGap: 24 }}

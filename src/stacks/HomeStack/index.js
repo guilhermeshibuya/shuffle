@@ -7,6 +7,7 @@ const HomeStack = createNativeStackNavigator();
 export default function HomeStackScreen() {
   return (
     <HomeStack.Navigator
+      initialRouteName="Liked"
       screenOptions={{
         headerShown: false,
       }}
