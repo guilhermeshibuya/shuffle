@@ -14,7 +14,7 @@ import Subtitle from "../../components/Subtitle";
 import ArtistCard from "../../components/ArtistCard";
 import { LinearGradient } from "expo-linear-gradient";
 import SpotifyWebApi from "spotify-web-api-node";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderLogo from "../../components/HeaderLogo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -51,6 +51,7 @@ export default function HomeScreen({ navigation }) {
           id,
           name,
           artists: artists.map((artist) => artist.name),
+          albumUrl: album.uri,
           albumCoverImgUrl: album.images[0].url,
           duration: duration_ms / 1000,
           preview_url,
@@ -82,6 +83,7 @@ export default function HomeScreen({ navigation }) {
             name,
             artists: artists.map((artist) => artist.name),
             albumCoverImgUrl: album.images[0].url,
+            albumUrl: album.uri,
             duration: duration_ms / 1000,
             preview_url,
           };
@@ -122,14 +124,15 @@ export default function HomeScreen({ navigation }) {
     });
 
     spotifyApi
-      .getNewReleases({ limit: 10 })
+      .getNewReleases({ limit: 8 })
       .then((data) => {
         const newAlbums = data.body.albums.items.map(
-          ({ id, name, artists, images }) => ({
+          ({ id, name, artists, images, uri }) => ({
             id,
             name,
             artists: artists.map((artist) => artist.name),
             albumCoverImgUrl: images[0].url,
+            albumUrl: uri,
           })
         );
         setNewReleases(newAlbums);
@@ -149,14 +152,16 @@ export default function HomeScreen({ navigation }) {
     const isoTimeStamp = currentDate.toISOString();
 
     spotifyApi
-      .getFeaturedPlaylists({ limit: 10, timestamp: isoTimeStamp })
+      .getFeaturedPlaylists({ limit: 5, timestamp: isoTimeStamp })
       .then((data) => {
         const playlists = data.body.playlists.items.map(
-          ({ id, name, owner, images }) => ({
+          ({ id, name, owner, images, tracks, uri }) => ({
             id,
             name,
             artists: owner.display_name,
             albumCoverImgUrl: images[0].url,
+            albumUrl: uri,
+            isPlaylist: true,
           })
         );
         setFeaturedPlaylists(playlists);
@@ -167,23 +172,34 @@ export default function HomeScreen({ navigation }) {
   };
 
   useEffect(() => {
-    // getTracks();
+    getTracks();
     getArtists();
     getRecentlyPlayedSongs();
     getNewReleases();
     getFeaturedPlaylists();
   }, []);
 
-  const renderMusic = ({ item }) => (
-    <MusicCard
-      title={item?.name}
-      artist={item?.artists}
-      albumCoverImgUrl={item?.albumCoverImgUrl}
-    />
+  const renderMusic = useCallback(
+    ({ item }) => (
+      <MusicCard
+        item={item}
+        title={item?.name}
+        artist={item?.artists}
+        albumCoverImgUrl={item?.albumCoverImgUrl}
+      />
+    ),
+    [recommendations, recentlyPlayed, newReleases, featuredPlaylists]
   );
 
-  const renderArtist = ({ item }) => (
-    <ArtistCard artistName={item?.name} imageUrl={item?.imageUrl} />
+  const renderArtist = useCallback(
+    ({ item }) => (
+      <ArtistCard
+        item={item}
+        artistName={item?.name}
+        imageUrl={item?.imageUrl}
+      />
+    ),
+    [topArtists]
   );
 
   if (

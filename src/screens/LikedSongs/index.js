@@ -15,7 +15,7 @@ import { colors } from "../../styles";
 import Title from "../../components/Title";
 import Subtitle from "../../components/Subtitle";
 import SpotifyWebApi from "spotify-web-api-node";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import MusicListItem from "../../components/MusicListItem";
 import { Player } from "../../../PlayerContext";
@@ -35,7 +35,6 @@ export default function LikedSongsScreen({ navigation }) {
 
   const { currentSong, setCurrentSong } = useContext(Player);
 
-  // Reaproveitar
   const truncateText = (text, maxChars) => {
     if (text?.length > maxChars) {
       return text.substring(0, maxChars) + "...";
@@ -52,7 +51,7 @@ export default function LikedSongsScreen({ navigation }) {
 
     spotifyApi
       .getMySavedTracks({
-        limit: 50,
+        limit: 20,
       })
       .then((data) => {
         const tracks = data.body.items.map(({ track }) => {
@@ -64,6 +63,7 @@ export default function LikedSongsScreen({ navigation }) {
             albumCoverImgUrl: album.images[0].url,
             duration: duration_ms / 1000,
             preview_url,
+            isFavorite: true,
           };
         });
         setLikedSongs(tracks);
@@ -71,14 +71,62 @@ export default function LikedSongsScreen({ navigation }) {
       .catch((err) => console.error(err));
   };
 
-  const renderMusic = ({ item }) => (
-    <MusicListItem
-      title={item.name}
-      artist={item.artists}
-      albumCoverImgUrl={item.albumCoverImgUrl}
-      duration={item.duration}
-    />
+  const handleFavoritePress = async (song) => {
+    const accessToken = await AsyncStorage.getItem("token");
+    const spotifyApi = new SpotifyWebApi({
+      accessToken: accessToken,
+      clientId: "635cb84ecc27482ea1d559e98461c89f",
+    });
+
+    if (song.isFavorite) {
+      spotifyApi
+        .removeFromMySavedTracks([song.id])
+        .then(() => {
+          console.log("Removido dos favoritos");
+        })
+        .catch((err) => console.log(err));
+    } else {
+      spotifyApi
+        .addToMySavedTracks([song.id])
+        .then(() => {
+          console.log("Adicionado aos favoritos");
+        })
+        .catch((err) => console.log(err));
+    }
+
+    const songId = likedSongs.findIndex((s) => s.id === song.id);
+
+    if (songId) {
+      const updatedLikedSongs = [...likedSongs];
+
+      updatedLikedSongs[songId] = {
+        ...likedSongs[songId],
+        isFavorite: !likedSongs[songId].isFavorite,
+      };
+
+      setLikedSongs(updatedLikedSongs);
+    }
+  };
+
+  const renderMusic = useCallback(
+    ({ item }) => (
+      <MusicListItem
+        title={item.name}
+        artist={item.artists}
+        albumCoverImgUrl={item.albumCoverImgUrl}
+        duration={item.duration}
+        onPress={play}
+        isPlaying={item === currentSong}
+        item={item}
+        handleFavoritePress={handleFavoritePress}
+      />
+    ),
+    [likedSongs, currentSound, currentSong, isPlaying]
   );
+
+  useEffect(() => {
+    getLikedSongs();
+  }, []);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
@@ -86,10 +134,6 @@ export default function LikedSongsScreen({ navigation }) {
 
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
-
-  useEffect(() => {
-    getLikedSongs();
-  }, []);
 
   const playSong = async () => {
     value.current = 0;
@@ -112,6 +156,9 @@ export default function LikedSongsScreen({ navigation }) {
       ]);
     } else {
       try {
+        if (currentSong) {
+          await currentSound.stopAsync();
+        }
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
           staysActiveInBackground: false,

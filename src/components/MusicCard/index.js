@@ -1,23 +1,22 @@
 import { Image, Pressable, Text, View } from "react-native";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
-export default function MusicCard({
-  title,
-  artist,
-  albumCoverImgUrl,
-  onPress,
-}) {
+export default function MusicCard({ title, artist, albumCoverImgUrl, item }) {
   const truncateText = (text, maxChars) => {
     if (text.length > maxChars) {
       return text.substring(0, maxChars) + "...";
     }
     return text;
   };
-
+  const navigation = useNavigation();
   const artistNames = Array.isArray(artist) ? artist.join(", ") : artist;
 
   return (
-    <Pressable style={styles.cardContainer} onPress={onPress}>
+    <Pressable
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate("Info", { item: item })}
+    >
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}

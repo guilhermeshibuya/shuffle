@@ -2,14 +2,21 @@ import { Image, Pressable, Text, View } from "react-native";
 import styles from "./styles";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../styles";
+import { useContext } from "react";
+import { Player } from "../../../PlayerContext";
 
 export default function MusicListItem({
   title,
   artist,
   albumCoverImgUrl,
   duration,
+  isPlaying,
   onPress,
+  item,
+  handleFavoritePress,
 }) {
+  const { currentSong, setCurrentSong } = useContext(Player);
+
   const truncateText = (text, maxChars) => {
     if (text.length > maxChars) {
       return text.substring(0, maxChars) + "...";
@@ -17,10 +24,15 @@ export default function MusicListItem({
     return text;
   };
 
+  const handlePress = () => {
+    setCurrentSong(item);
+    onPress(item);
+  };
+
   const artistNames = Array.isArray(artist) ? artist.join(", ") : artist;
 
   return (
-    <Pressable style={styles.cardContainer} onPress={onPress}>
+    <Pressable style={styles.cardContainer} onPress={handlePress}>
       <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
         <View style={styles.imageContainer}>
           <Image
@@ -31,12 +43,20 @@ export default function MusicListItem({
           />
         </View>
         <View>
-          <Text style={styles.musicName}>{truncateText(title, 25)}</Text>
+          <Text
+            style={[styles.musicName, isPlaying ? { color: colors.p1 } : ""]}
+          >
+            {truncateText(title, 25)}
+          </Text>
           <Text style={styles.artist}>{truncateText(artistNames, 30)}</Text>
         </View>
       </View>
-      <Pressable>
-        <MaterialIcons name="favorite" color={colors.p2} size={32} />
+      <Pressable onPress={() => handleFavoritePress(item)}>
+        {item?.isFavorite ? (
+          <MaterialIcons name="favorite" color={colors.p2} size={32} />
+        ) : (
+          <MaterialIcons name="favorite-outline" color={colors.p2} size={32} />
+        )}
       </Pressable>
     </Pressable>
   );

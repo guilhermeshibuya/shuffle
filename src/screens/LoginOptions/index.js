@@ -21,7 +21,7 @@ export default function LoginOptionsScreen({ navigation }) {
 
     for (let i = 0; i < length; i++) {
       const index = Math.floor(Math.random() * characters.length);
-      state += characters[i];
+      state += characters[index];
     }
     return state;
   }
@@ -31,6 +31,7 @@ export default function LoginOptionsScreen({ navigation }) {
   const scopes = [
     "user-read-email",
     "user-library-read",
+    "user-library-modify",
     "user-read-private",
     "user-read-recently-played",
     "user-top-read",
@@ -83,9 +84,11 @@ export default function LoginOptionsScreen({ navigation }) {
       <View style={styles.container}>
         <Image source={require("../../../assets/images/shuffle.png")} />
         <Text style={styles.text}>conecte-se e deixe a música te levar</Text>
-        <Button primary title="Inscreva-se" />
-        <Button onPress={() => authenticate()} title="Continuar com Spotify" />
-        <ButtonLink title="Entrar" />
+        <Button
+          primary
+          onPress={() => authenticate()}
+          title="Continuar com Spotify"
+        />
       </View>
     </View>
   );

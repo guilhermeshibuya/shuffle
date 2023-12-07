@@ -5,22 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: StatusBar.currentHeight + 24,
-  },
-  input: {
-    color: colors.c1,
-    borderWidth: 1,
-    borderColor: colors.c10,
-    borderStyle: "solid",
-    borderRadius: 16,
-    padding: 12,
-    marginBottom: 24,
-    backgroundColor: colors.c9,
-    fontSize: 16,
-    width: "100%",
-  },
-  inputFocused: {
-    borderColor: colors.p2,
+    paddingTop: 24,
   },
   musicName: {
     fontSize: 16,

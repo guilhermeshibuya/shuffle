@@ -12,6 +12,13 @@ import { LinearGradient } from "expo-linear-gradient";
 export default function ProfileScreen({ navigation }) {
   const [userProfile, setUserProfile] = useState();
 
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem("token");
+    await AsyncStorage.removeItem("expirationDate");
+
+    navigation.replace("Login");
+  };
+
   const getProfile = async () => {
     const accessToken = await AsyncStorage.getItem("token");
     const spotifyApi = new SpotifyWebApi({
@@ -30,8 +37,13 @@ export default function ProfileScreen({ navigation }) {
   useEffect(() => {
     getProfile();
   }, []);
-
-  if (!userProfile) return <View></View>;
+  console.log(userProfile);
+  if (!userProfile)
+    return (
+      <View style={{ paddingTop: 24, paddingHorizontal: 24 }}>
+        <Button onPress={() => handleLogout()} title={"Sair"} alert={true} />
+      </View>
+    );
 
   return (
     <LinearGradient
@@ -57,7 +69,7 @@ export default function ProfileScreen({ navigation }) {
         </Text>
       </View>
       <View style={styles.separator}></View>
-      <Button title={"Sair"} alert={true} />
+      <Button onPress={() => handleLogout()} title={"Sair"} alert={true} />
     </LinearGradient>
   );
 }
