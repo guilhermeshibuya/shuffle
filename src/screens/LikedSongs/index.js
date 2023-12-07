@@ -5,6 +5,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  StatusBar,
   Text,
   View,
 } from "react-native";
@@ -368,6 +369,7 @@ export default function LikedSongsScreen({ navigation }) {
                 height: "100%",
                 width: "100%",
                 alignContent: "center",
+                paddingTop: 24,
               }}
             >
               <Pressable

@@ -59,7 +59,7 @@ export default function ProfileScreen({ navigation }) {
         <Text style={styles.userName}>{userProfile?.display_name}</Text>
       </View>
       <View style={styles.separator}></View>
-      <View style={styles.optionsContainer}>
+      {/* <View style={styles.optionsContainer}>
         <MaterialIcons name="person" color={colors.p2} size={32} />
         <Text
           style={styles.optionsText}
@@ -68,7 +68,7 @@ export default function ProfileScreen({ navigation }) {
           gerenciar conta
         </Text>
       </View>
-      <View style={styles.separator}></View>
+      <View style={styles.separator}></View> */}
       <Button onPress={() => handleLogout()} title={"Sair"} alert={true} />
     </LinearGradient>
   );

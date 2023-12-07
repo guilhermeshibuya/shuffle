@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StatusBar, StyleSheet } from "react-native";
 import { colors } from "../../styles";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 24,
+    paddingTop: StatusBar.currentHeight + 24,
   },
   progressBarBack: {
     width: "100%",

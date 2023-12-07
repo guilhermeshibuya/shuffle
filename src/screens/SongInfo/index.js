@@ -1,7 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import styles from "./styles";
 import { useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SpotifyWebApi from "spotify-web-api-node";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";

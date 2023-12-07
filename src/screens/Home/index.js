@@ -1,6 +1,7 @@
 import {
   Dimensions,
   FlatList,
+  Image,
   Pressable,
   ScrollView,
   StatusBar,
@@ -14,11 +15,12 @@ import Subtitle from "../../components/Subtitle";
 import ArtistCard from "../../components/ArtistCard";
 import { LinearGradient } from "expo-linear-gradient";
 import SpotifyWebApi from "spotify-web-api-node";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderLogo from "../../components/HeaderLogo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../styles";
+import { Player } from "../../../PlayerContext";
 
 export default function HomeScreen({ navigation }) {
   const [recommendations, setRecommendations] = useState(null);
@@ -27,6 +29,13 @@ export default function HomeScreen({ navigation }) {
   const [newReleases, setNewReleases] = useState(null);
   const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
 
+  const { currentSong, setCurrentSong } = useContext(Player);
+  const truncateText = (text, maxChars) => {
+    if (text?.length > maxChars) {
+      return text.substring(0, maxChars) + "...";
+    }
+    return text;
+  };
   const getTracks = async () => {
     try {
       const accessToken = await AsyncStorage.getItem("token");
@@ -219,7 +228,7 @@ export default function HomeScreen({ navigation }) {
     >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        style={{ paddingTop: StatusBar.currentHeight }}
+        style={{ paddingTop: StatusBar.currentHeight + 24 }}
       >
         <View style={{ marginBottom: 40 }}>
           <HeaderLogo />
@@ -378,6 +387,74 @@ export default function HomeScreen({ navigation }) {
           />
         </ScrollView>
       </ScrollView>
+      {/* {currentSong && (
+        <Pressable
+          onPress={() => setIsModalVisible(!isModalVisible)}
+          style={{
+            width: "90%",
+            borderRadius: 16,
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginBottom: 16,
+            position: "absolute",
+            left: 20,
+            bottom: 100,
+          }}
+        >
+          <LinearGradient
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={{
+              width: "100%",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 12,
+              padding: 12,
+              borderRadius: 16,
+            }}
+            colors={[colors.p2, colors.p3, "#482ABF"]}
+            locations={[0.2, 0.4, 1]}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <Image
+                style={{ width: 48, height: 48, borderRadius: 8 }}
+                source={{ uri: currentSong?.albumCoverImgUrl }}
+              />
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontSize: 12,
+                  color: colors.c1,
+                  fontFamily: "NotoSans_600SemiBold",
+                }}
+              >
+                {truncateText(
+                  currentSong?.name + " · " + currentSong?.artists[0],
+                  30
+                )}
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialIcons name="favorite" size={24} color={colors.p6} />
+              <Pressable>
+                <MaterialIcons
+                  name="pause-circle-filled"
+                  size={24}
+                  color={colors.p6}
+                />
+              </Pressable>
+            </View>
+          </LinearGradient>
+        </Pressable>
+      )} */}
     </LinearGradient>
   );
 }

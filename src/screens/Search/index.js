@@ -58,7 +58,6 @@ export default function SearchScreen() {
 
         const results = [...tracks, ...artists, ...albums];
         setSearchResults(results);
-        console.log(results);
       } else {
         console.log("Erro na resposta da API");
       }
@@ -79,19 +78,29 @@ export default function SearchScreen() {
           marginBottom: 12,
         }}
         onPress={() =>
-          navigation.navigate("Info", {
-            item: {
-              id: item?.id,
-              name: item?.name,
-              artists:
-                item?.type === "artist" ? item.name : item?.artists[0]?.name,
-              albumCoverImgUrl:
-                item?.type === "track"
-                  ? item?.album?.images[1]?.url
-                  : item?.images[1]?.url,
-              albumUrl: item?.uri,
-            },
-          })
+          item?.type === "artist"
+            ? navigation.navigate("ArtistInfo", {
+                item: {
+                  id: item?.id,
+                  name: item?.name,
+                  imageUrl: item?.images[0]?.url,
+                },
+              })
+            : navigation.navigate("Info", {
+                item: {
+                  id: item?.id,
+                  name: item?.name,
+                  artists:
+                    item?.type === "artist"
+                      ? item.name
+                      : item?.artists[0]?.name,
+                  albumCoverImgUrl:
+                    item?.type === "track"
+                      ? item?.album?.images[1]?.url
+                      : item?.images[1]?.url,
+                  albumUrl: item?.uri,
+                },
+              })
         }
       >
         <View>

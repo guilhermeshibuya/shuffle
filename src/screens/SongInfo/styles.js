@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 24,
+    paddingTop: StatusBar.currentHeight + 24,
   },
   musicName: {
     fontSize: 16,

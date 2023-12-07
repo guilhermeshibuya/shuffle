@@ -80,7 +80,14 @@ export default function LoginOptionsScreen({ navigation }) {
   if (!fontLoaded) return null;
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.c12 }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.c12,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+      }}
+    >
       <View style={styles.container}>
         <Image source={require("../../../assets/images/shuffle.png")} />
         <Text style={styles.text}>conecte-se e deixe a música te levar</Text>
