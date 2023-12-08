@@ -97,7 +97,7 @@ export default function LikedSongsScreen({ navigation }) {
 
     const songId = likedSongs.findIndex((s) => s.id === song.id);
 
-    if (songId) {
+    if (songId !== -1) {
       const updatedLikedSongs = [...likedSongs];
 
       updatedLikedSongs[songId] = {
