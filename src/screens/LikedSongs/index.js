@@ -341,17 +341,6 @@ export default function LikedSongsScreen({ navigation }) {
                 )}
               </Text>
             </View>
-
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialIcons name="favorite" size={24} color={colors.p6} />
-              <Pressable>
-                <MaterialIcons
-                  name="pause-circle-filled"
-                  size={24}
-                  color={colors.p6}
-                />
-              </Pressable>
-            </View>
           </LinearGradient>
         </Pressable>
       )}
@@ -480,13 +469,13 @@ export default function LikedSongsScreen({ navigation }) {
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
                   alignItems: "center",
                 }}
               >
-                <Pressable>
+                {/* <Pressable>
                   <MaterialIcons name="shuffle" color={colors.c2} size={24} />
-                </Pressable>
+                </Pressable> */}
                 <View
                   style={{
                     flexDirection: "row",
@@ -521,9 +510,9 @@ export default function LikedSongsScreen({ navigation }) {
                     />
                   </Pressable>
                 </View>
-                <Pressable>
+                {/* <Pressable>
                   <MaterialIcons name="repeat" color={colors.c2} size={24} />
-                </Pressable>
+                </Pressable> */}
               </View>
             </View>
           </ModalContent>
