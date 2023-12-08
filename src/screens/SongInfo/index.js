@@ -42,7 +42,7 @@ export default function SongInfoScreen({ navigation }) {
 
     const songIndex = tracks.findIndex((s) => s.id === song.id);
 
-    if (songIndex) {
+    if (songIndex !== -1) {
       const updatedList = [...tracks];
 
       updatedList[songIndex] = {

@@ -50,7 +50,7 @@ export default function ArtistInfoScreen({ navigation }) {
 
     const songIndex = artistTopTracks.findIndex((s) => s.id === song.id);
 
-    if (songIndex) {
+    if (songIndex !== -1) {
       const updatedList = [...artistTopTracks];
 
       updatedList[songIndex] = {
