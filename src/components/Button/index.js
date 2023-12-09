@@ -3,7 +3,7 @@ import styles from "./styles";
 import { useState } from "react";
 import { useFonts, NotoSans_600SemiBold } from "@expo-google-fonts/noto-sans";
 
-export default function Button({ primary, alert, title }) {
+export default function Button({ primary, alert, title, onPress }) {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => setIsPressed(true);
@@ -32,6 +32,7 @@ export default function Button({ primary, alert, title }) {
       style={btnStyles}
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
+      onPress={onPress}
     >
       <Text style={styles.text}>{title}</Text>
     </Pressable>

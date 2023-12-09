@@ -5,8 +5,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 24,
-    backgroundColor: colors.c11,
+  },
+  likedSongs: {
+    padding: 12,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: colors.c10,
+    borderTopRightRadius: 16,
+    borderBottomRightRadius: 16,
+    width: "100%",
+    overflow: "hidden",
   },
 });
 

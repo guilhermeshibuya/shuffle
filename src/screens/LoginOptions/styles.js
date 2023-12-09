@@ -5,9 +5,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     padding: 24,
-    marginBottom: 72,
     gap: 24,
   },
   image: {
