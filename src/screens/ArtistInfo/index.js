@@ -97,28 +97,25 @@ export default function ArtistInfoScreen({ navigation }) {
       locations={[0.22, 1]}
       style={[styles.container, { paddingBottom: 100 }]}
     >
+      <MaterialIcons
+        name="arrow-back"
+        color={colors.c1}
+        size={36}
+        onPress={() => navigation.goBack()}
+        style={{
+          marginLeft: 24,
+          marginBottom: 12,
+        }}
+      />
       <ScrollView>
         <ImageBackground
           source={{ uri: imageUrl }}
           style={{
             width: "100%",
             height: 300,
-            position: "relative",
             marginBottom: 24,
           }}
         >
-          <MaterialIcons
-            name="arrow-back"
-            color={colors.c1}
-            size={36}
-            onPress={() => navigation.goBack()}
-            style={{
-              marginBottom: 16,
-              position: "absolute",
-              marginTop: StatusBar.currentHeight + 24,
-              marginLeft: 24,
-            }}
-          />
           <View style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.2)" }}></View>
         </ImageBackground>
         <View style={{ alignItems: "center", marginBottom: 24 }}>

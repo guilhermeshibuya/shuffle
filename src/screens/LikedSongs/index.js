@@ -69,7 +69,9 @@ export default function LikedSongsScreen({ navigation }) {
         });
         setLikedSongs(tracks);
       })
-      .catch((err) => console.error(err));
+      .catch((err) =>
+        console.log("Erro ao recuperar musicas curtidas: " + err)
+      );
   };
 
   const handleFavoritePress = async (song) => {
@@ -157,7 +159,7 @@ export default function LikedSongsScreen({ navigation }) {
       ]);
     } else {
       try {
-        if (currentSong) {
+        if (currentSong && currentSound !== null) {
           await currentSound.stopAsync();
         }
         await Audio.setAudioModeAsync({

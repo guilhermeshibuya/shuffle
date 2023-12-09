@@ -1,12 +1,10 @@
-import { Image, ImageBackground, Text, View } from "react-native";
+import { Image, Text, View } from "react-native";
 import Button from "../../components/Button";
 import styles from "./styles";
-import ButtonLink from "../../components/ButtonLink";
 import { useFonts, NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
 import { colors } from "../../styles";
 import * as AuthSession from "expo-auth-session";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect } from "react";
 import * as Linking from "expo-linking";
 
 export default function LoginOptionsScreen({ navigation }) {
@@ -58,23 +56,43 @@ export default function LoginOptionsScreen({ navigation }) {
   );
 
   const authenticate = async () => {
-    await promptAsync();
+    // promptAsync()
+    //   .then((res) => {
+    //     if (res?.type === "success") {
+    //       const { authentication } = res;
 
-    if (response?.type === "success") {
-      const { authentication } = response;
-      let expirationDate = Date.now();
+    //       let expirationDate = Date.now();
+    //       expirationDate = expirationDate + authentication.expiresIn * 1000;
 
-      expirationDate = expirationDate + authentication.expiresIn * 1000;
+    //       AsyncStorage.multiSet([
+    //         ["token", authentication.accessTken],
+    //         ["expirationDate", expirationDate.toString()],
+    //       ])
+    //         .then(() => navigation.replace("HomeTab"))
+    //         .catch((error) =>
+    //           console.log("Erro ao salvar credenciais: " + error)
+    //         );
+    //     }
+    //   })
+    //   .catch((error) => console.log("Erro na autenticação: " + error));
 
-      try {
-        await AsyncStorage.setItem("token", authentication.accessToken);
-        await AsyncStorage.setItem("expirationDate", expirationDate.toString());
+    promptAsync()
+      .then((resp) => {
+        if (resp?.type === "success") {
+          const { authentication } = resp;
+          let expirationDate = Date.now();
 
-        navigation.replace("HomeTab");
-      } catch (error) {
-        console.log(error);
-      }
-    }
+          expirationDate = expirationDate + authentication.expiresIn * 1000;
+
+          Promise.all([
+            AsyncStorage.setItem("token", authentication.accessToken),
+            AsyncStorage.setItem("expirationDate", expirationDate.toString()),
+          ])
+            .then(() => navigation.replace("HomeTab"))
+            .catch((err) => console.log("Erro ao salvar token: " + err));
+        }
+      })
+      .catch((err) => console.log("Erro durante autenticação: " + err));
   };
 
   if (!fontLoaded) return null;

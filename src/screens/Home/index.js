@@ -20,7 +20,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderLogo from "../../components/HeaderLogo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../styles";
-import { Player } from "../../../PlayerContext";
 
 export default function HomeScreen({ navigation }) {
   const [recommendations, setRecommendations] = useState(null);
@@ -29,13 +28,6 @@ export default function HomeScreen({ navigation }) {
   const [newReleases, setNewReleases] = useState(null);
   const [featuredPlaylists, setFeaturedPlaylists] = useState(null);
 
-  const { currentSong, setCurrentSong } = useContext(Player);
-  const truncateText = (text, maxChars) => {
-    if (text?.length > maxChars) {
-      return text.substring(0, maxChars) + "...";
-    }
-    return text;
-  };
   const getTracks = async () => {
     try {
       const accessToken = await AsyncStorage.getItem("token");
@@ -99,7 +91,7 @@ export default function HomeScreen({ navigation }) {
         });
         setRecentlyPlayed(recentlyTracks);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Error in getRecentlyPlayed: " + err));
   };
 
   const getArtists = async () => {
@@ -121,7 +113,7 @@ export default function HomeScreen({ navigation }) {
         setTopArtists(topArtists);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error in getArtists: " + err);
       });
   };
 
@@ -147,7 +139,7 @@ export default function HomeScreen({ navigation }) {
         setNewReleases(newAlbums);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error in getNewReleases: " + err);
       });
   };
 
@@ -176,7 +168,7 @@ export default function HomeScreen({ navigation }) {
         setFeaturedPlaylists(playlists);
       })
       .catch((err) => {
-        console.log(err);
+        console.log("Error in getFeatured: " + err);
       });
   };
 

@@ -1,8 +1,5 @@
 import { Image, View, Text, Pressable } from "react-native";
 import styles from "./styles";
-import Navbar from "../../components/Navbar";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { colors } from "../../styles";
 import Button from "../../components/Button";
 import { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -37,7 +34,7 @@ export default function ProfileScreen({ navigation }) {
   useEffect(() => {
     getProfile();
   }, []);
-  console.log(userProfile);
+
   if (!userProfile)
     return (
       <View style={{ paddingTop: 24, paddingHorizontal: 24 }}>
@@ -59,16 +56,6 @@ export default function ProfileScreen({ navigation }) {
         <Text style={styles.userName}>{userProfile?.display_name}</Text>
       </View>
       <View style={styles.separator}></View>
-      {/* <View style={styles.optionsContainer}>
-        <MaterialIcons name="person" color={colors.p2} size={32} />
-        <Text
-          style={styles.optionsText}
-          onPress={() => navigation.navigate("Manage Account")}
-        >
-          gerenciar conta
-        </Text>
-      </View>
-      <View style={styles.separator}></View> */}
       <Button onPress={() => handleLogout()} title={"Sair"} alert={true} />
     </LinearGradient>
   );
