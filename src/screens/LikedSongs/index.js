@@ -124,12 +124,8 @@ export default function LikedSongsScreen({ navigation }) {
         handleFavoritePress={handleFavoritePress}
       />
     ),
-    [likedSongs, currentSound, currentSong, isPlaying]
+    [likedSongs]
   );
-
-  useEffect(() => {
-    getLikedSongs();
-  }, []);
 
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60000);
@@ -139,7 +135,6 @@ export default function LikedSongsScreen({ navigation }) {
   };
 
   const playSong = async () => {
-    value.current = 0;
     if (likedSongs.length > 0) {
       setCurrentSong(likedSongs[0]);
     }
@@ -159,9 +154,10 @@ export default function LikedSongsScreen({ navigation }) {
       ]);
     } else {
       try {
-        if (currentSong && currentSound !== null) {
+        if (currentSound) {
           await currentSound.stopAsync();
         }
+
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
           staysActiveInBackground: false,
@@ -197,7 +193,7 @@ export default function LikedSongsScreen({ navigation }) {
     }
 
     if (status.didJustFinish === true) {
-      setCurrentSong(null);
+      setCurrentSound(null);
       playNextSong();
     }
   };
@@ -215,7 +211,7 @@ export default function LikedSongsScreen({ navigation }) {
 
   const playNextSong = async () => {
     if (currentSound) {
-      await currentSound.stopAsync();
+      await currentSound.stopAsync;
       setCurrentSound(null);
     }
     value.current += 1;
@@ -244,6 +240,10 @@ export default function LikedSongsScreen({ navigation }) {
       await play(prevSong);
     }
   };
+
+  useEffect(() => {
+    getLikedSongs();
+  }, []);
 
   return (
     <>

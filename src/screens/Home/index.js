@@ -15,7 +15,7 @@ import Subtitle from "../../components/Subtitle";
 import ArtistCard from "../../components/ArtistCard";
 import { LinearGradient } from "expo-linear-gradient";
 import SpotifyWebApi from "spotify-web-api-node";
-import { useCallback, useEffect, useState, useContext } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import HeaderLogo from "../../components/HeaderLogo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -213,240 +213,174 @@ export default function HomeScreen({ navigation }) {
     return <View></View>;
 
   return (
-    <LinearGradient
-      colors={["#222222", "#111111"]}
-      locations={[0.22, 1]}
-      style={[styles.container, { paddingBottom: 100 }]}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ paddingTop: StatusBar.currentHeight + 24 }}
+    <>
+      <LinearGradient
+        colors={["#222222", "#111111"]}
+        locations={[0.22, 1]}
+        style={[styles.container, { paddingBottom: 100 }]}
       >
-        <View style={{ marginBottom: 40 }}>
-          <HeaderLogo />
-        </View>
-
-        <Pressable
-          onPress={() => navigation.navigate("Liked")}
-          style={{
-            flexDirection: "row",
-            alignItems: "stretch",
-            borderRadius: 16,
-            overflow: "hidden",
-            marginBottom: 40,
-          }}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ paddingTop: StatusBar.currentHeight + 24 }}
         >
-          <LinearGradient
-            colors={["#432bba", "#6e57e0"]}
-            style={{
-              padding: 12,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              borderTopLeftRadius: 16,
-              borderBottomLeftRadius: 16,
-            }}
-          >
-            <MaterialIcons name="favorite" color={colors.c1} size={40} />
-          </LinearGradient>
-          <View style={styles.likedSongs}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: colors.c1,
-              }}
-            >
-              Músicas curtidas
-            </Text>
+          <View style={{ marginBottom: 40 }}>
+            <HeaderLogo />
           </View>
-        </Pressable>
 
-        <View>
-          <Subtitle text="descubra novos ritmos" />
-          <Title style={{ marginBottom: 16 }} text="músicas" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          directionalLockEnabled={true}
-          alwaysBounceVertical={false}
-          alwaysBounceHorizontal={false}
-          style={{ marginBottom: 40 }}
-        >
-          <FlatList
-            data={recommendations}
-            renderItem={renderMusic}
-            keyExtractor={(item) => item.id}
-            numColumns={recommendations?.length / 2}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={true}
-            contentContainerStyle={{ rowGap: 24 }}
-            columnWrapperStyle={{ columnGap: 24 }}
-          />
-        </ScrollView>
-
-        <View>
-          <Subtitle text="reviva a melodia" />
-          <Title style={{ marginBottom: 16 }} text="ouça novamente" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          directionalLockEnabled={true}
-          alwaysBounceVertical={false}
-          alwaysBounceHorizontal={false}
-          style={{ marginBottom: 40 }}
-        >
-          <FlatList
-            data={recentlyPlayed}
-            renderItem={renderMusic}
-            keyExtractor={(item) => item.id}
-            numColumns={6}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={true}
-            contentContainerStyle={{ rowGap: 24 }}
-            columnWrapperStyle={{ columnGap: 24 }}
-          />
-        </ScrollView>
-
-        <View>
-          <Subtitle text="os mais populares" />
-          <Title style={{ marginBottom: 16 }} text="seus artistas" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          directionalLockEnabled={true}
-          alwaysBounceVertical={false}
-          alwaysBounceHorizontal={false}
-          style={{ marginBottom: 40 }}
-        >
-          <FlatList
-            data={topArtists}
-            renderItem={renderArtist}
-            keyExtractor={(item) => item.id}
-            numColumns={8}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            columnWrapperStyle={{ columnGap: 24 }}
-          />
-        </ScrollView>
-
-        <View style={{ marginBottom: 24 }}>
-          <Subtitle text="hits novos que estão agitando o mundo" />
-          <Title style={{ marginBottom: 16 }} text="lançamentos" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          directionalLockEnabled={true}
-          alwaysBounceVertical={false}
-          alwaysBounceHorizontal={false}
-          style={{ marginBottom: 40 }}
-        >
-          <FlatList
-            data={newReleases}
-            renderItem={renderMusic}
-            keyExtractor={(item) => item.id}
-            numColumns={newReleases?.length}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ rowGap: 24 }}
-            columnWrapperStyle={{ columnGap: 24 }}
-          />
-        </ScrollView>
-
-        <View style={{ marginBottom: 24 }}>
-          <Subtitle text="playlists compartilhadas, emoções comuns" />
-          <Title style={{ marginBottom: 16 }} text="em destaque" />
-        </View>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          directionalLockEnabled={true}
-          alwaysBounceVertical={false}
-          style={{ marginBottom: 40 }}
-        >
-          <FlatList
-            data={featuredPlaylists}
-            renderItem={renderMusic}
-            keyExtractor={(item) => item.id}
-            numColumns={newReleases?.length}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={true}
-            contentContainerStyle={{ rowGap: 24 }}
-            columnWrapperStyle={{ columnGap: 24 }}
-          />
-        </ScrollView>
-      </ScrollView>
-      {/* {currentSong && (
-        <Pressable
-          onPress={() => setIsModalVisible(!isModalVisible)}
-          style={{
-            width: "90%",
-            borderRadius: 16,
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginBottom: 16,
-            position: "absolute",
-            left: 20,
-            bottom: 100,
-          }}
-        >
-          <LinearGradient
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
+          <Pressable
+            onPress={() => navigation.navigate("Liked")}
             style={{
-              width: "100%",
-              justifyContent: "space-between",
               flexDirection: "row",
-              alignItems: "center",
-              gap: 12,
-              padding: 12,
+              alignItems: "stretch",
               borderRadius: 16,
+              overflow: "hidden",
+              marginBottom: 40,
             }}
-            colors={[colors.p2, colors.p3, "#482ABF"]}
-            locations={[0.2, 0.4, 1]}
           >
-            <View
+            <LinearGradient
+              colors={["#432bba", "#6e57e0"]}
               style={{
+                padding: 12,
                 flexDirection: "row",
+                justifyContent: "center",
                 alignItems: "center",
-                gap: 12,
+                borderTopLeftRadius: 16,
+                borderBottomLeftRadius: 16,
               }}
             >
-              <Image
-                style={{ width: 48, height: 48, borderRadius: 8 }}
-                source={{ uri: currentSong?.albumCoverImgUrl }}
-              />
+              <MaterialIcons name="favorite" color={colors.c1} size={40} />
+            </LinearGradient>
+            <View style={styles.likedSongs}>
               <Text
-                numberOfLines={1}
                 style={{
-                  fontSize: 12,
+                  fontSize: 20,
                   color: colors.c1,
-                  fontFamily: "NotoSans_600SemiBold",
                 }}
               >
-                {truncateText(
-                  currentSong?.name + " · " + currentSong?.artists[0],
-                  30
-                )}
+                Músicas curtidas
               </Text>
             </View>
+          </Pressable>
 
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialIcons name="favorite" size={24} color={colors.p6} />
-              <Pressable>
-                <MaterialIcons
-                  name="pause-circle-filled"
-                  size={24}
-                  color={colors.p6}
-                />
-              </Pressable>
-            </View>
-          </LinearGradient>
-        </Pressable>
-      )} */}
-    </LinearGradient>
+          <View>
+            <Subtitle text="descubra novos ritmos" />
+            <Title style={{ marginBottom: 16 }} text="músicas" />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            alwaysBounceHorizontal={false}
+            style={{ marginBottom: 40 }}
+          >
+            <FlatList
+              data={recommendations}
+              renderItem={renderMusic}
+              keyExtractor={(item) => item.id}
+              numColumns={recommendations?.length / 2}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={{ rowGap: 24 }}
+              columnWrapperStyle={{ columnGap: 24 }}
+            />
+          </ScrollView>
+
+          <View>
+            <Subtitle text="reviva a melodia" />
+            <Title style={{ marginBottom: 16 }} text="ouça novamente" />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            alwaysBounceHorizontal={false}
+            style={{ marginBottom: 40 }}
+          >
+            <FlatList
+              data={recentlyPlayed}
+              renderItem={renderMusic}
+              keyExtractor={(item) => item.id}
+              numColumns={6}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={{ rowGap: 24 }}
+              columnWrapperStyle={{ columnGap: 24 }}
+            />
+          </ScrollView>
+
+          <View>
+            <Subtitle text="os mais populares" />
+            <Title style={{ marginBottom: 16 }} text="seus artistas" />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            alwaysBounceHorizontal={false}
+            style={{ marginBottom: 40 }}
+          >
+            <FlatList
+              data={topArtists}
+              renderItem={renderArtist}
+              keyExtractor={(item) => item.id}
+              numColumns={8}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              columnWrapperStyle={{ columnGap: 24 }}
+            />
+          </ScrollView>
+
+          <View style={{ marginBottom: 24 }}>
+            <Subtitle text="hits novos que estão agitando o mundo" />
+            <Title style={{ marginBottom: 16 }} text="lançamentos" />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            alwaysBounceHorizontal={false}
+            style={{ marginBottom: 40 }}
+          >
+            <FlatList
+              data={newReleases}
+              renderItem={renderMusic}
+              keyExtractor={(item) => item.id}
+              numColumns={newReleases?.length}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ rowGap: 24 }}
+              columnWrapperStyle={{ columnGap: 24 }}
+            />
+          </ScrollView>
+
+          <View style={{ marginBottom: 24 }}>
+            <Subtitle text="playlists compartilhadas, emoções comuns" />
+            <Title style={{ marginBottom: 16 }} text="em destaque" />
+          </View>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            directionalLockEnabled={true}
+            alwaysBounceVertical={false}
+            style={{ marginBottom: 40 }}
+          >
+            <FlatList
+              data={featuredPlaylists}
+              renderItem={renderMusic}
+              keyExtractor={(item) => item.id}
+              numColumns={newReleases?.length}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={true}
+              contentContainerStyle={{ rowGap: 24 }}
+              columnWrapperStyle={{ columnGap: 24 }}
+            />
+          </ScrollView>
+        </ScrollView>
+      </LinearGradient>
+    </>
   );
 }
