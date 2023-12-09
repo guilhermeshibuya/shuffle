@@ -56,26 +56,6 @@ export default function LoginOptionsScreen({ navigation }) {
   );
 
   const authenticate = async () => {
-    // promptAsync()
-    //   .then((res) => {
-    //     if (res?.type === "success") {
-    //       const { authentication } = res;
-
-    //       let expirationDate = Date.now();
-    //       expirationDate = expirationDate + authentication.expiresIn * 1000;
-
-    //       AsyncStorage.multiSet([
-    //         ["token", authentication.accessTken],
-    //         ["expirationDate", expirationDate.toString()],
-    //       ])
-    //         .then(() => navigation.replace("HomeTab"))
-    //         .catch((error) =>
-    //           console.log("Erro ao salvar credenciais: " + error)
-    //         );
-    //     }
-    //   })
-    //   .catch((error) => console.log("Erro na autenticação: " + error));
-
     promptAsync()
       .then((resp) => {
         if (resp?.type === "success") {
