@@ -166,7 +166,6 @@ export default function SongInfoScreen({ navigation }) {
             alignSelf: "center",
             marginBottom: 32,
           }}
-          onPress={() => playSong()}
         >
           <MaterialIcons name="play-arrow" size={32} />
         </Pressable>
